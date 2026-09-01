@@ -14,6 +14,11 @@ but establish patterns worth building into the real product later.
 - `worked_example_2026-04-08.md` -- a real, sourced example of connecting
   a specific date's data movement to external news, as a template for the
   eventual hover-and-search LLM feature.
+- `worked_example_2026-03-27.md` -- a second worked example: the VIX peak
+  of the whole window, driven by a slow-building multi-week crisis
+  (Iran conflict, oil spike) rather than a single headline. Useful
+  contrast case -- shows the automated feature needs to handle sustained
+  narratives, not just single-day catalysts.
 
 ## Headline findings so far
 
@@ -30,6 +35,12 @@ but establish patterns worth building into the real product later.
 - April 8, 2026's rally (biggest single-day OMXSPI move in the window) is
   independently confirmed by real news: falling Treasury yields + easing
   geopolitical tensions (ceasefire reports), matching the data exactly.
+- March 27, 2026's VIX peak (31.05, the window's high) is confirmed as
+  the tail end of a multi-week escalating Iran conflict / oil price
+  spike, not a single-day shock -- and US10Y notably *rose* into the
+  peak rather than falling, since the driver was inflation fear rather
+  than generic flight-to-safety. A useful nuance for any automated
+  version to get right.
 
 ## Open methodological question
 
