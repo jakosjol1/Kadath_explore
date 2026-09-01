@@ -17,8 +17,8 @@ hover-to-analyze LLM + web search layer.
 
 | Layer | Data | Status |
 |---|---|---|
-| L1 macro (vix, us_10y, se_policy, eur_sek) | daily observations | **Pipeline validated end-to-end**: Kadath -> Supabase -> chart, using real Aug 2026 data (manually backfilled from a Claude chat session, see schema/001_init_schema.sql migrations 002-003) |
-| Market level (OMXSPI) | daily index values | **Sourced from FRED/Nasdaq (web), not Kadath** -- Kadath's stock-level layers are down, so this is a genuine external substitute, not a Kadath pull. Stored under the synthetic MARKET portfolio row (migration 004). First real macro-vs-market comparison is now possible. |
+| L1 macro (vix, us_10y) | daily observations | **Widened to Mar 2 - Aug 18 2026** (~120 trading days each). se_policy/eur_sek still only cover Aug 2026 -- widen those next if needed. |
+| Market level (OMXSPI) | daily index values | **Widened to match** (Mar 2 - Aug 20 2026, 119 obs), sourced from FRED, stored under MARKET portfolio row. **First real multi-month macro-vs-market picture**: a clean VIX spike (21->31) coinciding with a ~9% OMXSPI drawdown in March, mirrored by a recovery in April, then a calmer May-Aug regime with both series broadly improving together. Visually a much more convincing negative VIX/OMXSPI relationship than the original 12-day window suggested. |
 | L8 weights / L9 NAV / L10 attribution | all 4 portfolios | Returning empty/null -- Kadath side, not ours. Re-check before relying on portfolio sync. |
 
 `portfolios` table now includes all 4 real portfolios plus a synthetic
@@ -59,8 +59,16 @@ macro-vs-portfolio comparisons can share the same downstream tables.
       for market-level analysis -- worth keeping as a standing pattern
       (Kadath macro + web-sourced market/price data) rather than waiting
       for Kadath's stock layers, especially if that outage persists.
-- [ ] Widen the OMXSPI backfill to match/exceed the macro backfill's date
-      range once the small-window pattern is validated further
+- [x] Widened the OMXSPI + VIX + US 10Y dataset to Mar 2 - Aug 18/20 2026
+      (~120 trading days), all date-aligned. First finding: a clean VIX
+      spike (21->31) coincided with a ~9% OMXSPI drawdown in March, with a
+      mirrored recovery in April -- a real, visually convincing pattern
+      across a genuine volatility event, not just a calm 12-day snapshot.
+- [ ] Widen se_policy/eur_sek to match the Mar-Aug window (currently Aug-only)
+- [ ] Consider widening further back (2025, or the full FRED history to 2008)
+      once ready to test the relationship across more distinct regimes
+- [ ] Run this same OMXSPI-from-FRED pattern for other indices/benchmarks if
+      the project expands beyond Sweden
 - [x] Add synthetic "MARKET" row to `portfolios` table for macro-vs-benchmark
       comparisons independent of any specific portfolio
 - [x] Validate full pipeline (Kadath -> Supabase -> chart) with real data
