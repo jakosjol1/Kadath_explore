@@ -25,12 +25,27 @@ but establish patterns worth building into the real product later.
     rate-hike repricing, elevated oil) because offsetting good news
     (earnings, easing tensions) wins out. Key lesson: low VIX means risk
     is being *absorbed*, not that it's absent.
+  - `worked_example_2022-08-15_crash_regime.md` -- **grinding bear
+    market** (required widening the dataset back to 2022 -- nothing in
+    the current 2026 window is this severe). Captures the Fed's hawkish
+    Jackson Hole 2022 pivot (Aug 26) through that cycle's market low
+    (Sep 29). OMXSPI fell ~16% over 7 weeks; VIX and US10Y rose
+    *together*, a distinct fingerprint from the other three regimes,
+    where the driver is monetary policy itself rather than a geopolitical
+    or single-headline shock.
 
-Still needed for a fuller library: a genuine **crash** (nothing this
-severe exists in the current Mar-Aug 2026 window -- would need to widen
-back to 2020 COVID or 2022's rate-hike selloff) and a **slow melt-up**
-(steady low-vol rally with no fear at all, as opposed to the mild drift
-seen in the calm example above).
+Regime comparison table:
+
+| Regime | Duration | OMXSPI move | VIX peak | US10Y behavior |
+|---|---|---|---|---|
+| Slow-building crisis (Mar 2026) | ~4 weeks | ~-9% | 31 | Flat/mixed |
+| Sharp single-catalyst reversal (Apr 2026) | 1 day | +3.92% (single day) | Sharp drop | Declined with the rally |
+| Calm/grinding (May-Jun 2026) | ~2.5 weeks | +2.5% (steady) | 15-18 (low) | N/A (calm) |
+| Grinding bear market (2022) | ~7 weeks | -16% to the low | 33.6 (slow climb) | +123bp, rising in lockstep with VIX |
+
+Still needed for a fuller library: a **slow melt-up** (steady low-vol
+rally with genuinely no fear at all, as opposed to the mild May 2026
+drift, which still had real concurrent risks).
 
 ## Headline findings so far
 
@@ -53,6 +68,14 @@ seen in the calm example above).
   peak rather than falling, since the driver was inflation fear rather
   than generic flight-to-safety. A useful nuance for any automated
   version to get right.
+- The 2022 Fed tightening episode (Aug 15-Oct 17) is the deepest and
+  longest regime in the library: OMXSPI fell ~16% over 7 weeks, VIX
+  climbed slowly to 33.6, and -- unlike the 2026 examples -- US10Y rose
+  *alongside* VIX rather than diverging from it, because both were
+  driven by the same underlying cause (the Fed's hawkish pivot at
+  Jackson Hole, Aug 26 2022). This is the clearest signature yet of a
+  genuinely monetary-policy-driven bear market versus a geopolitical or
+  single-headline-driven one.
 
 ## Open methodological question
 
