@@ -11,14 +11,26 @@ but establish patterns worth building into the real product later.
 - `correlation_analysis.py` / `correlation_results.txt` -- Pearson
   correlations between VIX/US10Y/EUR-SEK daily changes and OMXSPI daily
   returns, plus a rolling 20-day correlation, over Mar-Aug 2026.
-- `worked_example_2026-04-08.md` -- a real, sourced example of connecting
-  a specific date's data movement to external news, as a template for the
-  eventual hover-and-search LLM feature.
-- `worked_example_2026-03-27.md` -- a second worked example: the VIX peak
-  of the whole window, driven by a slow-building multi-week crisis
-  (Iran conflict, oil spike) rather than a single headline. Useful
-  contrast case -- shows the automated feature needs to handle sustained
-  narratives, not just single-day catalysts.
+- **Regime pattern library** (the long-term goal: build a reference set of
+  what different market regimes actually look like, so live conditions can
+  be compared against real historical analogs):
+  - `worked_example_2026-03-27.md` -- **slow-building crisis**. VIX climbs
+    steadily to a peak (21->31 over ~4 weeks) as a single deteriorating
+    narrative (Iran war/oil spike) runs with no offsetting good news.
+  - `worked_example_2026-04-08.md` -- **sharp single-catalyst reversal**.
+    VIX drops sharply in one day (25.78->21.04) on a single de-escalating
+    headline (ceasefire reports).
+  - `worked_example_2026-05-18_calm_regime.md` -- **calm/grinding**. VIX
+    stays low and flat (15-18) even with real concurrent risks (a live Fed
+    rate-hike repricing, elevated oil) because offsetting good news
+    (earnings, easing tensions) wins out. Key lesson: low VIX means risk
+    is being *absorbed*, not that it's absent.
+
+Still needed for a fuller library: a genuine **crash** (nothing this
+severe exists in the current Mar-Aug 2026 window -- would need to widen
+back to 2020 COVID or 2022's rate-hike selloff) and a **slow melt-up**
+(steady low-vol rally with no fear at all, as opposed to the mild drift
+seen in the calm example above).
 
 ## Headline findings so far
 
