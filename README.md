@@ -18,6 +18,7 @@ hover-to-analyze LLM + web search layer.
 | Layer | Data | Status |
 |---|---|---|
 | L1 macro (vix, us_10y, se_policy, eur_sek) | daily observations | **Pipeline validated end-to-end**: Kadath -> Supabase -> chart, using real Aug 2026 data (manually backfilled from a Claude chat session, see schema/001_init_schema.sql migrations 002-003) |
+| Market level (OMXSPI) | daily index values | **Sourced from FRED/Nasdaq (web), not Kadath** -- Kadath's stock-level layers are down, so this is a genuine external substitute, not a Kadath pull. Stored under the synthetic MARKET portfolio row (migration 004). First real macro-vs-market comparison is now possible. |
 | L8 weights / L9 NAV / L10 attribution | all 4 portfolios | Returning empty/null -- Kadath side, not ours. Re-check before relying on portfolio sync. |
 
 `portfolios` table now includes all 4 real portfolios plus a synthetic
@@ -51,6 +52,15 @@ macro-vs-portfolio comparisons can share the same downstream tables.
       currently buildable either -- this is one broader outage, not several
       independent gaps. Re-check stock-level tools before attempting any
       market-vs-macro work; only macro-internal analysis is possible today.
+- [x] **Unblocked via external data (2026-09-01):** pulled real OMXSPI daily
+      index values from FRED (web, not Kadath) for the same Aug 3-20 window
+      as the macro backfill. Stored under the MARKET portfolio row
+      (migration 004). This sidesteps the Kadath stock-level outage entirely
+      for market-level analysis -- worth keeping as a standing pattern
+      (Kadath macro + web-sourced market/price data) rather than waiting
+      for Kadath's stock layers, especially if that outage persists.
+- [ ] Widen the OMXSPI backfill to match/exceed the macro backfill's date
+      range once the small-window pattern is validated further
 - [x] Add synthetic "MARKET" row to `portfolios` table for macro-vs-benchmark
       comparisons independent of any specific portfolio
 - [x] Validate full pipeline (Kadath -> Supabase -> chart) with real data

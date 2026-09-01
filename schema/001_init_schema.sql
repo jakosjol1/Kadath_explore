@@ -111,3 +111,21 @@ on conflict (series_id) do nothing;
 -- outside the L8/L9/L10 pipeline. "Macro vs market" (as opposed to
 -- "macro vs a specific portfolio") genuinely depends on L9/L10 coming
 -- back online; there's no L1-level shortcut around it.
+
+-- ============================================================
+-- Migration 004: OMXSPI daily index values, sourced externally
+-- Applied 2026-09-01.
+--
+-- IMPORTANT: this data did NOT come from Kadath. All Kadath stock-level
+-- tools (l1_get_prices, l1_get_fundamentals, l2/l3/l4 layers, l8/l9/l10)
+-- are currently returning empty/null. This is real OMXSPI data pulled
+-- from FRED (https://fred.stlouisfed.org/series/NASDAQOMXSPI, source:
+-- Nasdaq, Inc.) via web search/fetch during a Claude chat session, for
+-- the same Aug 3-20 2026 window as the macro backfill, so it can be
+-- directly compared against vix/us_10y/se_policy/eur_sek.
+--
+-- Stored under the synthetic MARKET portfolio row: nav = index level,
+-- gross_return_pct = day-over-day % change. Not included as raw INSERTs
+-- here -- re-derive from FRED/NASDAQOMXSPI for a wider date range, or
+-- see conversation history for the exact values used.
+-- ============================================================
