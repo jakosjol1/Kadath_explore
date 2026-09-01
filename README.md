@@ -17,8 +17,8 @@ hover-to-analyze LLM + web search layer.
 
 | Layer | Data | Status |
 |---|---|---|
-| L1 macro (vix, us_10y) | daily observations | **Widened to Mar 2 - Aug 18 2026** (~120 trading days each). se_policy/eur_sek still only cover Aug 2026 -- widen those next if needed. |
-| Market level (OMXSPI) | daily index values | **Widened to match** (Mar 2 - Aug 20 2026, 119 obs), sourced from FRED, stored under MARKET portfolio row. **First real multi-month macro-vs-market picture**: a clean VIX spike (21->31) coinciding with a ~9% OMXSPI drawdown in March, mirrored by a recovery in April, then a calmer May-Aug regime with both series broadly improving together. Visually a much more convincing negative VIX/OMXSPI relationship than the original 12-day window suggested. |
+| L1 macro (vix, us_10y, se_policy, eur_sek) | daily observations | **All 4 series widened to Mar 2 - Aug 18/19/20 2026** (~118-121 obs each), fully aligned with OMXSPI. se_policy flat at 1.75% throughout (no Riksbank move); eur_sek genuinely drifted 10.71 -> 11.10, with a notable step up starting mid-June. |
+| Market level (OMXSPI) | daily index values | **Widened to match** (Mar 2 - Aug 20 2026, 119 obs), sourced from FRED, stored under MARKET portfolio row. Clean inverse VIX/OMXSPI relationship visible through a real March volatility event (VIX 21->31) and April recovery, holding up through the calmer May-Aug regime. |
 | L8 weights / L9 NAV / L10 attribution | all 4 portfolios | Returning empty/null -- Kadath side, not ours. Re-check before relying on portfolio sync. |
 
 `portfolios` table now includes all 4 real portfolios plus a synthetic
@@ -64,7 +64,10 @@ macro-vs-portfolio comparisons can share the same downstream tables.
       spike (21->31) coincided with a ~9% OMXSPI drawdown in March, with a
       mirrored recovery in April -- a real, visually convincing pattern
       across a genuine volatility event, not just a calm 12-day snapshot.
-- [ ] Widen se_policy/eur_sek to match the Mar-Aug window (currently Aug-only)
+- [x] Widen se_policy/eur_sek to match the Mar-Aug window (done -- see
+      schema/005 and schema/006). se_policy flat throughout; eur_sek shows
+      a real, meaningful drift worth investigating against ECB/Riksbank
+      news if the LLM-commentary step gets built.
 - [ ] Consider widening further back (2025, or the full FRED history to 2008)
       once ready to test the relationship across more distinct regimes
 - [ ] Run this same OMXSPI-from-FRED pattern for other indices/benchmarks if
