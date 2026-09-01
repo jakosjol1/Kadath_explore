@@ -17,8 +17,12 @@ hover-to-analyze LLM + web search layer.
 
 | Layer | Data | Status |
 |---|---|---|
-| L1 macro (vix, us_10y, se_policy) | daily observations | Live, confirmed working |
+| L1 macro (vix, us_10y, se_policy) | daily observations | **Pipeline validated end-to-end**: Kadath -> Supabase -> chart, using real Aug 2026 data (manually backfilled from a Claude chat session, see schema/001_init_schema.sql migration 002) |
 | L8 weights / L9 NAV / L10 attribution | all 4 portfolios | Returning empty/null -- Kadath side, not ours. Re-check before relying on portfolio sync. |
+
+`portfolios` table now includes all 4 real portfolios plus a synthetic
+`MARKET` row (benchmark OMXSPI) so macro-vs-market and macro-vs-portfolio
+comparisons can share the same schema.
 
 ## Schema
 
@@ -34,5 +38,8 @@ macro-vs-portfolio comparisons can share the same downstream tables.
 - [ ] Decide macro resampling strategy (native frequency vs. resampled to
       rebalance periods) before building comparison charts
 - [ ] Pick frontend (Lovable vs. custom) once first chart is validated
-- [ ] Add synthetic "MARKET" row to `portfolios` table for macro-vs-benchmark
+- [ ] Widen macro backfill beyond Aug 2026 (currently a small proof-of-pipeline
+      slice, deliberately kept small -- see conversation history for reasoning)
+- [x] Add synthetic "MARKET" row to `portfolios` table for macro-vs-benchmark
       comparisons independent of any specific portfolio
+- [x] Validate full pipeline (Kadath -> Supabase -> chart) with real data

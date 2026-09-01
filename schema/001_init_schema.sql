@@ -64,3 +64,36 @@ create table portfolio_period_returns (
 create index idx_macro_obs_date on macro_observations(obs_date);
 create index idx_nav_rebal_date on portfolio_nav_history(rebal_date);
 create index idx_period_returns_end on portfolio_period_returns(period_end);
+
+
+-- ============================================================
+-- Migration 002: seed reference data + synthetic MARKET row
+-- Applied 2026-09-01 via Supabase MCP `apply_migration`.
+-- ============================================================
+
+insert into macro_series (series_id, description, unit, source) values
+    ('vix', 'CBOE Volatility Index', 'index', 'kadath'),
+    ('us_10y', 'US 10-Year Treasury Yield', 'percent', 'kadath'),
+    ('se_policy', 'Riksbank policy rate', 'percent', 'kadath')
+on conflict (series_id) do nothing;
+
+-- Synthetic MARKET row so macro-vs-market comparisons share the same
+-- downstream tables as macro-vs-portfolio comparisons.
+insert into portfolios (portfolio_id, description, rebal_freq, w_max, benchmark, is_synthetic_market) values
+    ('MARKET', 'Synthetic row representing OMXSPI benchmark-level comparison (not an actual portfolio)', null, null, 'OMXSPI', true)
+on conflict (portfolio_id) do nothing;
+
+-- Real portfolio reference rows (from l8_get_portfolios, live 2026-09-01)
+insert into portfolios (portfolio_id, description, rebal_freq, w_max, benchmark, is_synthetic_market) values
+    ('mvl8_largecap_v1', 'Concentrated monthly portfolio; GK-scaled alphas, Barra ff_v1, SE mkt cap >= 10B SEK', 'monthly', 0.15, 'OMXSPI', false),
+    ('mvl8_monthly_v1', 'Monthly mean-variance portfolio; GK-scaled alphas, Barra ff_v1, equal-weight benchmark proxy', 'monthly', 0.05, 'OMXSPI', false),
+    ('mvl8_quarterly_v1', 'Quarterly mean-variance portfolio; 63-day GK horizon', 'quarterly', 0.05, 'OMXSPI', false),
+    ('mvl8_semiannual_v1', 'Semi-annual mean-variance portfolio; 126-day GK horizon', 'semiannual', 0.05, 'OMXSPI', false)
+on conflict (portfolio_id) do nothing;
+
+-- NOTE: macro_observations for Aug 2026 (vix, us_10y, se_policy) were
+-- backfilled manually via a Claude chat session (live Kadath MCP
+-- connection) rather than the standalone sync script, since that script
+-- is still blocked on a Kadath API credential. See sync/kadath_to_supabase.py
+-- docstring. Not included here as raw INSERTs -- re-run the same manual
+-- process or the script (once credentialed) to reproduce.
