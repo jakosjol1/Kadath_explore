@@ -91,9 +91,23 @@ insert into portfolios (portfolio_id, description, rebal_freq, w_max, benchmark,
     ('mvl8_semiannual_v1', 'Semi-annual mean-variance portfolio; 126-day GK horizon', 'semiannual', 0.05, 'OMXSPI', false)
 on conflict (portfolio_id) do nothing;
 
--- NOTE: macro_observations for Aug 2026 (vix, us_10y, se_policy) were
--- backfilled manually via a Claude chat session (live Kadath MCP
+-- NOTE: macro_observations for Aug 2026 (vix, us_10y, se_policy, eur_sek)
+-- were backfilled manually via a Claude chat session (live Kadath MCP
 -- connection) rather than the standalone sync script, since that script
 -- is still blocked on a Kadath API credential. See sync/kadath_to_supabase.py
 -- docstring. Not included here as raw INSERTs -- re-run the same manual
 -- process or the script (once credentialed) to reproduce.
+
+-- ============================================================
+-- Migration 003: eur_sek series
+-- Applied 2026-09-01.
+-- ============================================================
+insert into macro_series (series_id, description, unit, source) values
+    ('eur_sek', 'EUR/SEK FX rate', 'rate', 'kadath')
+on conflict (series_id) do nothing;
+
+-- FINDING (2026-09-01): l1_get_prices is per-symbol only (e.g. ERIC-B),
+-- not an index -- there's no direct OMXSPI/market-level price series
+-- outside the L8/L9/L10 pipeline. "Macro vs market" (as opposed to
+-- "macro vs a specific portfolio") genuinely depends on L9/L10 coming
+-- back online; there's no L1-level shortcut around it.

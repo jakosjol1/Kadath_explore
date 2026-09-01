@@ -17,7 +17,7 @@ hover-to-analyze LLM + web search layer.
 
 | Layer | Data | Status |
 |---|---|---|
-| L1 macro (vix, us_10y, se_policy) | daily observations | **Pipeline validated end-to-end**: Kadath -> Supabase -> chart, using real Aug 2026 data (manually backfilled from a Claude chat session, see schema/001_init_schema.sql migration 002) |
+| L1 macro (vix, us_10y, se_policy, eur_sek) | daily observations | **Pipeline validated end-to-end**: Kadath -> Supabase -> chart, using real Aug 2026 data (manually backfilled from a Claude chat session, see schema/001_init_schema.sql migrations 002-003) |
 | L8 weights / L9 NAV / L10 attribution | all 4 portfolios | Returning empty/null -- Kadath side, not ours. Re-check before relying on portfolio sync. |
 
 `portfolios` table now includes all 4 real portfolios plus a synthetic
@@ -40,6 +40,10 @@ macro-vs-portfolio comparisons can share the same downstream tables.
 - [ ] Pick frontend (Lovable vs. custom) once first chart is validated
 - [ ] Widen macro backfill beyond Aug 2026 (currently a small proof-of-pipeline
       slice, deliberately kept small -- see conversation history for reasoning)
+- [x] Checked for an L1-level market-index shortcut (to unblock "macro vs
+      market" while L8/L9/L10 is down) -- doesn't exist. l1_get_prices is
+      per-symbol only. "Macro vs market" genuinely depends on the L9/L10
+      pipeline coming back; "macro vs a specific portfolio" does too.
 - [x] Add synthetic "MARKET" row to `portfolios` table for macro-vs-benchmark
       comparisons independent of any specific portfolio
 - [x] Validate full pipeline (Kadath -> Supabase -> chart) with real data
