@@ -1,0 +1,18 @@
+n = 116 trading days (Mar 3 - Aug 18, 2026)
+
+1. VIX daily change  vs OMXSPI daily return:  r = -0.380
+2. VIX level         vs OMXSPI level:          r = -0.818
+3. US10Y daily change vs OMXSPI daily return:  r = -0.302  (n=112)
+4. EUR/SEK daily chg vs OMXSPI daily return:   r = -0.494
+
+Rolling 20-day correlation (VIX chg vs OMXSPI ret):
+  2026-03-03 to 2026-03-30: r = -0.280
+  2026-03-17 to 2026-04-15: r = -0.555
+  2026-03-31 to 2026-04-29: r = -0.588
+  2026-04-16 to 2026-05-15: r = -0.221
+  2026-04-30 to 2026-05-29: r = -0.189
+  2026-05-18 to 2026-06-12: r = -0.350
+  2026-06-01 to 2026-06-29: r = -0.411
+  2026-06-15 to 2026-07-13: r = -0.456
+  2026-06-30 to 2026-07-27: r = -0.477
+  2026-07-14 to 2026-08-10: r = -0.234
