@@ -42,8 +42,15 @@ macro-vs-portfolio comparisons can share the same downstream tables.
       slice, deliberately kept small -- see conversation history for reasoning)
 - [x] Checked for an L1-level market-index shortcut (to unblock "macro vs
       market" while L8/L9/L10 is down) -- doesn't exist. l1_get_prices is
-      per-symbol only. "Macro vs market" genuinely depends on the L9/L10
-      pipeline coming back; "macro vs a specific portfolio" does too.
+      per-symbol only.
+- [x] **Wider finding (2026-09-01):** it's not just L8/L9/L10. Confirmed empty
+      right now: l1_get_prices, l1_get_fundamentals, l2_get_features_for_date,
+      l4_get_factor_snapshot -- i.e. every stock-level layer, not just
+      portfolios. Only l1_get_macro (macro series) is live. A synthetic
+      equal-weight "market proxy" from individual stock prices is NOT
+      currently buildable either -- this is one broader outage, not several
+      independent gaps. Re-check stock-level tools before attempting any
+      market-vs-macro work; only macro-internal analysis is possible today.
 - [x] Add synthetic "MARKET" row to `portfolios` table for macro-vs-benchmark
       comparisons independent of any specific portfolio
 - [x] Validate full pipeline (Kadath -> Supabase -> chart) with real data
