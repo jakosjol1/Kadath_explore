@@ -72,6 +72,9 @@ macro-vs-portfolio comparisons can share the same downstream tables.
       once ready to test the relationship across more distinct regimes
 - [ ] Run this same OMXSPI-from-FRED pattern for other indices/benchmarks if
       the project expands beyond Sweden
+- [ ] **Daily service** ("today's regime + yesterday's update," run
+      automatically) -- designed in `docs/daily-service-design.md`, not yet
+      built. Same Kadath API credential blocker as the sync script.
 - [x] Add synthetic "MARKET" row to `portfolios` table for macro-vs-benchmark
       comparisons independent of any specific portfolio
 - [x] Validate full pipeline (Kadath -> Supabase -> chart) with real data
